@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+	x:Class="SimulationLib.PixelRenderingView"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:vm="clr-namespace:SimulationLib.ViewModels"
+	xmlns:local="clr-namespace:SimulationLib"
+	xmlns:s="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+	xmlns:t="clr-namespace:SkiaSharp.Views.Maui;assembly=SkiaSharp.Views.Maui.Core"
+	xmlns:m="clr-namespace:SimulationLib.ViewModels"
+	xmlns:ap="clr-namespace:SimulationLib.AttachedProperties"
+	xmlns:conv="clr-namespace:SimulationLib.Converters">
+	<!--<ContentView.BindingContext>
+		<vm:SimulationViewModel />
+	</ContentView.BindingContext>-->
+	<ContentView.Content>
+		<Grid>
+			<Grid.Resources>
+				<Style
+					TargetType="{x:Type Slider}">
+					<Setter
+						Property="VerticalOptions"
+						Value="Center" />
+					<Setter
+						Property="Margin"
+						Value="0,0" />
+					<Setter
+						Property="ThumbColor"
+						Value="#7F007F" />
+					<Setter
+						Property="MaximumTrackColor"
+						Value="#404040" />
+					<Setter
+						Property="MinimumTrackColor"
+						Value="#808080" />
+				</Style>
+				<Style
+					TargetType="{x:Type Label}">
+					<Setter
+						Property="VerticalOptions"
+						Value="Center" />
+					<Setter
+						Property="Margin"
+						Value="0,10" />
+					<Setter
+						Property="HorizontalTextAlignment"
+						Value="End" />
+					<Setter
+						Property="Padding"
+						Value="0,0,15,0" />
+					<Setter
+						Property="FontSize"
+						Value="Small" />
+					<Setter
+						Property="FontAttributes"
+						Value="Bold" />
+				</Style>
+			</Grid.Resources>
+
+			<s:SKCanvasView
+				EnableTouchEvents="True"
+				x:Name="cv"
+				HorizontalOptions="Fill"
+				VerticalOptions="Fill"
+				ap:EventHandlerAttachedProperty.Events="SizeChanged,Loaded,Unloaded,Closing,PaintSurface,Touch"
+				ap:EventHandlerAttachedProperty.Command="{Binding EventHandlerCommand}"
+				ap:EventHandlerAttachedProperty.CommandParameter="{Binding ., Source={RelativeSource Mode=Self}}" />
+
+			<Button
+				BackgroundColor="#11ff0000"
+				HeightRequest="50"
+				VerticalOptions="End"
+				Command="{Binding ToggleSettingsCommand}" />
+
+			<ScrollView
+				IsVisible="{Binding IsConfigurationVisible}"
+				BackgroundColor="#7f000000"
+				VerticalOptions="End"
+				Margin="10"
+				VerticalScrollBarVisibility="Always">
+				<Grid
+					VerticalOptions="End">
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Label
+						Grid.Row="0"
+						Grid.Column="0"
+						Text="Leader Count" />
+					<Label
+						Grid.Row="0"
+						Grid.Column="1"
+						Text="{Binding LeaderCount, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="0"
+						Grid.Column="2"
+						Minimum="1"
+						Maximum="24"
+						Value="{Binding LeaderCount}" />
+
+					<Label
+						Grid.Row="1"
+						Grid.Column="0"
+						Text="Follower Count" />
+					<Label
+						Grid.Row="1"
+						Grid.Column="1"
+						Text="{Binding FollowerCount, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="1"
+						Grid.Column="2"
+						Minimum="0"
+						Maximum="1000"
+						Value="{Binding FollowerCount}" />
+
+					<Label
+						Grid.Row="2"
+						Grid.Column="0"
+						Text="Update Fps" />
+					<Label
+						Grid.Row="2"
+						Grid.Column="1"
+						Text="{Binding UpdateFps, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="2"
+						Grid.Column="2"
+						Minimum="1"
+						Maximum="240"
+						Value="{Binding UpdateFps}" />
+
+					<Label
+						Grid.Row="3"
+						Grid.Column="0"
+						Text="Render Fps" />
+					<Label
+						Grid.Row="3"
+						Grid.Column="1"
+						Text="{Binding RenderFps, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="3"
+						Grid.Column="2"
+						Minimum="1"
+						Maximum="480"
+						Value="{Binding RenderFps}" />
+
+					<Label
+						Grid.Row="4"
+						Grid.Column="0"
+						Text="Fade Alpha" />
+					<Label
+						Grid.Row="4"
+						Grid.Column="1"
+						Text="{Binding FadeAlpha, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="4"
+						Grid.Column="2"
+						Minimum="0"
+						Maximum="255"
+						Value="{Binding FadeAlpha}" />
+
+					<Label
+						Grid.Row="5"
+						Grid.Column="0"
+						Text="Leader Radius" />
+					<Label
+						Grid.Row="5"
+						Grid.Column="1"
+						Text="{Binding LeaderRadius, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="5"
+						Grid.Column="2"
+						Minimum="0"
+						Maximum="10"
+						Value="{Binding LeaderRadius}" />
+
+					<Label
+						Grid.Row="6"
+						Grid.Column="0"
+						Text="Follower Radius" />
+					<Label
+						Grid.Row="6"
+						Grid.Column="1"
+						Text="{Binding FollowerRadius, StringFormat='{}{0:N0}'}" />
+					<Slider
+						Grid.Row="6"
+						Grid.Column="2"
+						Minimum="1"
+						Maximum="10"
+						Value="{Binding FollowerRadius}" />
+
+				</Grid>
+			</ScrollView>
+
+			<!--<v:MyGrid Cols="3" Rows="*">-->
+			<!--</v:MyGrid>-->
+
+		</Grid>
+	</ContentView.Content>
+</ContentView>

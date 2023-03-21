@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:v="clr-namespace:SimulationLib;assembly=SimulationLib"
+	xmlns:vm1="clr-namespace:SwarmSimulation.ViewModels;assembly=SwarmSimulation"
+	xmlns:vm2="clr-namespace:PatternsSimulation.ViewModels;assembly=PatternsSimulation"
+	x:Class="PatternsTinkeringApp.MainPage">
+	<ContentPage.BindingContext>
+		<!--<vm1:SimulationViewModel />-->
+		<vm2:SimulationViewModel />
+	</ContentPage.BindingContext>
+	<v:PixelRenderingView />
+</ContentPage>
